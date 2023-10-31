@@ -31,7 +31,7 @@ pub async fn start(
     config: EthInputReaderConfig,
     metrics: EthInputReaderMetrics,
 ) -> Result<(), EthInputReaderError> {
-    info!("Setting up eth-input-reader with config: {:?}", config);
+    tracing::info!("Setting up eth-input-reader with config: {:?}", config);
 
     let dapp_metadata = DAppMetadata {
         chain_id: config.chain_id,

@@ -49,6 +49,7 @@ func run(cmd *cobra.Command, args []string) {
 
 	logger.Info.Printf("sending input to %x", book.CartesiDApp)
 	inputIndex, err := ethutil.AddInput(ctx, client, book, signer, payload)
+	cobra.CheckErr(err)
 
 	logger.Info.Printf("added input with index %v", inputIndex)
 }
@@ -65,7 +66,7 @@ func init() {
 
 	Cmd.Flags().StringVar(&hexPayload, "payload", "",
 		"input payload hex-encoded starting with 0x")
-	Cmd.MarkFlagRequired("payload")
+	cobra.CheckErr(Cmd.MarkFlagRequired("payload"))
 
 	Cmd.Flags().BoolVar(&envAddresses, "env-addresses", false,
 		"if set, load contract addresses from env variables; else, use test addresses")

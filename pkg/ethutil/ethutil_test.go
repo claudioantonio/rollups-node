@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/cartesi/rollups-node/pkg/addresses"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/testcontainers/testcontainers-go"
@@ -46,7 +47,7 @@ func TestSendingInputs(t *testing.T) {
 		t.Fatalf("failed to create signer: %v", err)
 	}
 
-	dappAddress := common.HexToAddress("fafafafafafafafafafafafafafafafafafafafa")
+	addresses := addresses.GetTestBook()
 	payload := common.Hex2Bytes("deadbeef")
 
 	testCases := []struct {
@@ -58,7 +59,7 @@ func TestSendingInputs(t *testing.T) {
 		{
 			name: "AddInput",
 			do: func() (int, error) {
-				return AddInput(ctx, client, signer, dappAddress, payload)
+				return AddInput(ctx, client, addresses, signer, payload)
 			},
 			sender: common.HexToAddress("f39fd6e51aad88f6f4ce6ab8827279cfffb92266"),
 			input:  payload,
@@ -74,7 +75,7 @@ func TestSendingInputs(t *testing.T) {
 		if inputIndex != i {
 			t.Fatalf("wrong input index: %v; expected: %v", inputIndex, i)
 		}
-		readSender, readInput, err := GetInputFromInputBox(client, dappAddress, inputIndex)
+		readSender, readInput, err := GetInputFromInputBox(client, addresses, inputIndex)
 		if err != nil {
 			t.Fatal(err)
 		}

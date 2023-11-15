@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/cartesi/rollups-node/pkg/addresses"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/stretchr/testify/assert"
@@ -40,7 +41,7 @@ func TestSendingInputs(t *testing.T) {
 	signer, err := NewMnemonicSigner(ctx, client, FoundryMnemonic, 0)
 	require.Nil(t, err)
 
-	dappAddress := common.HexToAddress("fafafafafafafafafafafafafafafafafafafafa")
+	book := addresses.GetTestBook()
 	payload := common.Hex2Bytes("deadbeef")
 
 	testCases := []struct {
@@ -52,7 +53,7 @@ func TestSendingInputs(t *testing.T) {
 		{
 			name: "AddInput",
 			do: func() (int, error) {
-				return AddInput(ctx, client, signer, dappAddress, payload)
+				return AddInput(ctx, client, book, signer, payload)
 			},
 			sender: common.HexToAddress("f39fd6e51aad88f6f4ce6ab8827279cfffb92266"),
 			input:  payload,
@@ -69,7 +70,7 @@ func TestSendingInputs(t *testing.T) {
 
 		require.Equal(t, i, inputIndex)
 
-		event, err := GetInputFromInputBox(client, dappAddress, inputIndex)
+		event, err := GetInputFromInputBox(client, book, inputIndex)
 		require.Nil(t, err)
 		require.Equal(t, testCase.sender, event.Sender)
 		require.Equal(t, testCase.input, event.Input)

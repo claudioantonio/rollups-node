@@ -3,3 +3,10 @@
 .DS_Store
 build/deployments
 **/.idea/
+build/anvil/anvil_state/state.json
+build/anvil/deployments/**
+build/anvil/devnet/anvil_state/state.json
+build/anvil/devnet/deployments/localhost.json
+devnet/anvil/devnet/anvil_state/state.json
+devnet/anvil/devnet/deployments/localhost.json
+devnet/deployments/localhost/dapp.json

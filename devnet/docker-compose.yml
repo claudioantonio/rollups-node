@@ -14,7 +14,7 @@ services:
     build: 
       context: anvil/devnet
       tags:
-       - "cartesi/anvil_devnet:devel"
+       - "cartesi/rollups-node-devnet:devel"
     command: [
       "anvil", 
       "--load-state", 
